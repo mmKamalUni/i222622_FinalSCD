@@ -1,0 +1,62 @@
+version: "3.8"
+
+networks:
+  backend:
+    driver: bridge
+
+services:
+  api-gateway:
+    build: ./api-gateway
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    ports:
+      - "4000:4000"
+    depends_on:
+      - auth-service
+      - patient-service
+      - doctor-service
+      - appointment-service
+      - notification-service
+    networks:
+      - backend
+
+  auth-service:
+    build: ./auth-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - backend
+
+  patient-service:
+    build: ./patient-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - backend
+
+  doctor-service:
+    build: ./doctor-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - backend
+
+  appointment-service:
+    build: ./appointment-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - backend
+
+  notification-service:
+    build: ./notification-service
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    networks:
+      - backend
